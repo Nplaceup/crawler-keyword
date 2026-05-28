@@ -1,0 +1,9 @@
+server:
+  port: 9050
+
+spring:
+  application:
+    name: keyword-crawler
+
+  profiles:
+    active: default
