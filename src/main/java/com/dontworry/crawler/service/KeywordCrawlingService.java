@@ -25,6 +25,7 @@ public class KeywordCrawlingService {
     private static final String METHOD = "GET";
 
     public KeywordCallbackRequest.KeywordData crawl(String keyword) {
+        log.info("[KeywordCrawlingService] 네이버 키워드 조회 시작 keyword={}", keyword);
         String timestamp = String.valueOf(System.currentTimeMillis());
         String signature = NaverSignatureUtil.generate(
                 METHOD, URI, timestamp, naverApiConfig.getSecretKey());
@@ -52,7 +53,10 @@ public class KeywordCrawlingService {
         }
 
         randomDelay();
-        return parseResponse(response.getBody(), keyword);
+        KeywordCallbackRequest.KeywordData parsed = parseResponse(response.getBody(), keyword);
+        log.info("[KeywordCrawlingService] 네이버 키워드 조회 완료 keyword={}, hasResponse={}",
+                keyword, parsed != null);
+        return parsed;
     }
 
     private KeywordCallbackRequest.KeywordData parseResponse(String body, String keyword) {
